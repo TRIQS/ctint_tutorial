@@ -1,7 +1,7 @@
 #include <triqs/test_tools/gfs.hpp>
-#include <app4triqs/app4triqs.hpp>
+#include <ctint_tutorial/ctint_tutorial.hpp>
 
-using namespace app4triqs;
+using namespace ctint_tutorial;
 
 TEST(Toto, Add) { // NOLINT
 
