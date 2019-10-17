@@ -25,6 +25,6 @@ r"""
 DOC
 
 """
-from ctint_tutorial_module import Toto, chain
+from ctint_tutorial_module import Solver
 
-__all__ = ['Toto', 'chain']
+__all__ = ['Solver']

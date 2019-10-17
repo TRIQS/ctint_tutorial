@@ -1,76 +1,52 @@
 # Generated automatically using the command :
-# c++2py ../../c++/ctint_tutorial/ctint_tutorial.hpp -p --members_read_only -N ctint_tutorial -a ctint_tutorial -m ctint_tutorial_module -o ctint_tutorial_module --moduledoc="The ctint_tutorial python module" -C pytriqs --cxxflags="-std=c++17" --target_file_only
+# c++2py ../../c++/ctint_tutorial/solver.hpp -p --members_read_only -N ctint_tutorial -a ctint_tutorial -m ctint_tutorial_module -o ctint_tutorial_module --moduledoc="The ctint_tutorial python module" -C pytriqs --cxxflags="-std=c++17" --target_file_only
 from cpp2py.wrap_generator import *
 
 # The module
 module = module_(full_name = "ctint_tutorial_module", doc = r"The ctint_tutorial python module", app_name = "ctint_tutorial")
 
 # Imports
+module.add_imports(*['pytriqs.gf'])
 
 # Add here all includes
-module.add_include("ctint_tutorial/ctint_tutorial.hpp")
+module.add_include("ctint_tutorial/solver.hpp")
 
 # Add here anything to add in the C++ code at the start, e.g. namespace using
 module.add_preamble("""
 #include <cpp2py/converters/string.hpp>
-#include <triqs/cpp2py_converters/h5.hpp>
+#include <triqs/cpp2py_converters/gf.hpp>
 
 using namespace ctint_tutorial;
 """)
 
+module.add_enum("spin", ['spin::up', 'spin::down'], "ctint_tutorial", doc = r"""""")
 
-# The class toto
+# The class solver
 c = class_(
-        py_type = "Toto",  # name of the python class
-        c_type = "ctint_tutorial::toto",   # name of the C++ class
-        doc = r"""A very useful and important class""",   # doc of the C++ class
-        hdf5 = True,
-        arithmetic = ("add_only"),
-        comparisons = "==",
-        serializable = "tuple"
+        py_type = "Solver",  # name of the python class
+        c_type = "ctint_tutorial::solver",   # name of the C++ class
+        doc = r"""""",   # doc of the C++ class
+        hdf5 = False,
 )
 
-c.add_constructor("""()""", doc = r"""""")
+c.add_constructor("""(double beta_, int n_iw = 1024, int n_tau = 100001)""", doc = r"""Construct a ctint solver""")
 
-c.add_constructor("""(int i_)""", doc = r"""Construct from integer
+c.add_method("""void solve (double U, double delta, int n_cycles, int length_cycle = 50, int n_warmup_cycles = 5000, std::string random_name = \"\", int max_time = -1)""",
+             doc = r"""Method that performs the QMC calculation""")
 
-Parameters
-----------
-i_
-     a scalar  :math:`G(\tau)`""")
+c.add_property(name = "G0_iw",
+               getter = cfunction("block_gf_view<triqs::gfs::imfreq> G0_iw ()"),
+               doc = r"""Access non-interacting Matsubara Green function""")
 
-c.add_method("""int f (int u)""",
-             doc = r"""A simple function with :math:`G(\tau)`
+c.add_property(name = "G0_tau",
+               getter = cfunction("block_gf_view<triqs::gfs::imtime> G0_tau ()"),
+               doc = r"""Access non-interacting imaginary-time Green function""")
 
-Parameters
-----------
-u
-     Nothing useful""")
-
-c.add_method("""std::string hdf5_scheme ()""",
-             is_static = True,
-             doc = r"""HDF5""")
-
-c.add_property(name = "i",
-               getter = cfunction("int get_i ()"),
-               doc = r"""Simple accessor""")
+c.add_property(name = "G_iw",
+               getter = cfunction("block_gf_view<triqs::gfs::imfreq> G_iw ()"),
+               doc = r"""Access interacting Matsubara Green function""")
 
 module.add_class(c)
-
-module.add_function ("int ctint_tutorial::chain (int i, int j)", doc = r"""Chain digits of two integers
-
-Parameters
-----------
-i
-     The first integer
-
-j
-     The second integer
-
-Returns
--------
-out
-     An integer containing the digits of both i and j""")
 
 
 
