@@ -1,8 +1,9 @@
 from pytriqs.gf import *
 from pytriqs.archive import *
-import pytriqs.utility.mpi as mpi
-from pytriqs.applications.impurity_solvers.ctint_tutorial import CtintSolver
 from pytriqs.plot.mpl_interface import oplot
+import pytriqs.utility.mpi as mpi
+
+from ctint_tutorial import Solver
 
 # Parameters
 U = 2.5            # Hubbard interaction
@@ -12,9 +13,9 @@ beta = 40.0        # Inverse temperature
 n_iw = 128         # Number of Matsubara frequencies
 n_cycles = 10000   # Number of MC cycles
 delta = 0.1        # delta parameter
-n_iterations = 21  # Number of DMFT iterations
+n_iterations = 1   # Number of DMFT iterations
 
-S = CtintSolver(beta, n_iw) # Initialize the solver
+S = Solver(beta, n_iw) # Initialize the solver
 
 S.G_iw << SemiCircular(half_bandwidth) # Initialize the Green's function
 
@@ -34,5 +35,3 @@ with HDFArchive("dmft_bethe.output.h5",'w') as A:
 
   if mpi.is_master_node():
    A['G%i'%it] = G_sym # Save G from every iteration to file
-
-
