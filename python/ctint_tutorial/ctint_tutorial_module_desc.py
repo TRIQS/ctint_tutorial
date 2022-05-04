@@ -6,7 +6,7 @@ from cpp2py.wrap_generator import *
 module = module_(full_name = "ctint_tutorial_module", doc = r"The ctint_tutorial python module", app_name = "ctint_tutorial")
 
 # Imports
-module.add_imports(*['pytriqs.gf'])
+module.add_imports(*['triqs.gf'])
 
 # Add here all includes
 module.add_include("ctint_tutorial/solver.hpp")

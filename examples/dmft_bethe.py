@@ -1,7 +1,7 @@
-from pytriqs.gf import *
-from pytriqs.archive import *
-from pytriqs.plot.mpl_interface import oplot
-import pytriqs.utility.mpi as mpi
+from triqs.gf import *
+from h5 import *
+from triqs.plot.mpl_interface import oplot
+import triqs.utility.mpi as mpi
 
 from ctint_tutorial import Solver
 
